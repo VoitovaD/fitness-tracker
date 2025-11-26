@@ -1,0 +1,31 @@
+#networks
+
+services:
+  #db: Postrges
+  #redis:
+  #clickhouse:
+  #keycloak
+
+  nginx:
+    image: nginx:1.24-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+    restart: unless-stopped
+
+  #app-receiving:
+  #app-processor:
+
+  #consumer
+  #worker
+
+
+  volumes:
+  # postgres:
+  #   name: fitness-tracker-db-data
+  # receiving-logs:
+  #   name: fitness-tracker-receiving-logs
+  #  processor-logs:
+  #   name: fitness-tracker-receiving-logs
+
