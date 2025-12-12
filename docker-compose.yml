@@ -1,29 +1,68 @@
-#networks
+networks:
+  tracker:
+    driver: bridge
+    name: tracker
 
 services:
-  #db: Postrges
-  #redis:
-  #clickhouse:
-  #keycloak
+  db:
+    container_name: ${DB_NAME}  
+    image: postgres:15.1-alpine
+    restart: always
+    env_file:
+    - .env
+    ports:
+    - ${DB_PORT}:${DB_PORT}
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -p ${DB_PORT}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+    - tracker
 
   nginx:
-    image: nginx:1.24-alpine
+    container_name: tracker-nginx
+    image: nginx:1.27-alpine
     ports:
       - "80:80"
       - "443:443"
     volumes:
     restart: unless-stopped
+    depends_on:
+    - receiving-app
+    networks:
+    - tracker
 
-  #app-receiving:
+  receiving-app:
+    container_name: receiving-app
+    image: receiving-app
+    restart: always
+    build: 
+      context: ./Devices
+      dockerfile: Dockerfile
+    env_file:
+    - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - tracker
+  
   #app-processor:
 
   #consumer
   #worker
 
+  #redis:
+  #clickhouse:
+  #keycloak
+
 
   volumes:
-  # postgres:
-  #   name: fitness-tracker-db-data
+    postgres:
+      name: fitness-tracker-db-data
   # receiving-logs:
   #   name: fitness-tracker-receiving-logs
   #  processor-logs:
