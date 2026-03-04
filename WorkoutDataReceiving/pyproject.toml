@@ -8,6 +8,9 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "3.11.11"
 django-ninja = "^1.5.0"
+uvicorn = "^0.24.0"
+psycopg2-binary = "^2.9.0"
+python-dotenv = "^1.2.1"
 
 [tool.isort]
 known_first_party = ["app"]

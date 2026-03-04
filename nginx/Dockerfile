@@ -1,2 +1,2 @@
-FROM nginx:1.27-alpine
-# COPY
+FROM nginx:1.27.4-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf

@@ -3,15 +3,15 @@ networks:
     driver: bridge
     name: tracker
 
+
 services:
   db:
-    container_name: ${DB_NAME}  
     image: postgres:15.1-alpine
     restart: always
     env_file:
-    - .env
+    - ./WorkoutDataReceiving/.env
     ports:
-    - ${DB_PORT}:${DB_PORT}
+    - 5432:5432
     volumes:
     - postgres:/var/lib/postgresql/data
     healthcheck:
@@ -23,24 +23,27 @@ services:
     - tracker
 
   nginx:
-    container_name: tracker-nginx
-    image: nginx:1.27-alpine
+    container_name: nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     restart: unless-stopped
     depends_on:
-    - receiving-app
+      - workout-data-receiving
     networks:
-    - tracker
+      - tracker
 
-  receiving-app:
-    container_name: receiving-app
-    image: receiving-app
+  workout-data-receiving:
+    container_name: workout-data-receiving
+    image: workout-data-receiving
     restart: always
     build: 
-      context: ./Devices
+      context: ./WorkoutDataReceiving
       dockerfile: Dockerfile
     env_file:
     - .env
@@ -49,20 +52,15 @@ services:
         condition: service_healthy
     networks:
     - tracker
-  
-  #app-processor:
-
-  #consumer
-  #worker
-
-  #redis:
-  #clickhouse:
-  #keycloak
 
 
-  volumes:
-    postgres:
-      name: fitness-tracker-db-data
+
+volumes:
+  postgres:
+    name: tracker-db-data
+
+    # postgres:
+    #   name: fitness-tracker-db-data
   # receiving-logs:
   #   name: fitness-tracker-receiving-logs
   #  processor-logs:
