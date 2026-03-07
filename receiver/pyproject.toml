@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "workoutdatareceiving"
+name = "receiver"
 version = "0.1.0"
 description = ""
 authors = ["Daria daria.voitova11@gmail.com"]
