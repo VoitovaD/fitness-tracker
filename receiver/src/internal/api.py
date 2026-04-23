@@ -5,9 +5,8 @@ from ninja.responses import Response
 
 internal_router = Router()
 
-
 @internal_router.get(
-    "/healthcheck",
+    "/",
     tags=["healthcheck"],
     response={200: str}
 )
@@ -16,9 +15,9 @@ def get_app_healthcheck(request) -> Response:
 
 
 @internal_router.get(
-    "/db-healthcheck",
+    "/db",
     tags=["healthcheck"],
-    response={200: str, 500: str} #response=HealthCheckResponse
+    response={200: str, 500: str}
 )
 def get_db_healthcheck(request) -> Response:
     try:

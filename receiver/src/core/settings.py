@@ -44,6 +44,7 @@ DEBUG = os.getenv('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'workout',
+    'internal',
 ]
 
 MIDDLEWARE = [
