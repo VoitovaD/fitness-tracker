@@ -46,6 +46,8 @@ services:
     build: 
       context: ./receiver
       dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     env_file:
     - .env
     depends_on:
@@ -62,6 +64,8 @@ services:
     build: 
       context: ./processor
       dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
     env_file:
     - .env
     depends_on:
