@@ -14,6 +14,14 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     PGPORT: str
 
+    KAFKA_BOOTSTRAP_SERVERS: str = "kafka:9092"
+    KAFKA_TOPIC: str = "tracker.events"
+    KAFKA_GROUP_ID: str = "processor-group"
+
+
+    SCHEMA_REGISTRY_URL: str = "http://schema-registry:8081"
+    AVRO_SCHEMA_PATH: str = "/fitness-tracker/schemas/workout_event.avsc"
+
 
     @property
     def database_url(self) -> str:
