@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "WorkoutEvent",
+  "namespace": "fitnesstracker",
+  "fields": [
+    {"name": "user_id",   "type": "int"},
+    {"name": "event",     "type": "string"},
+    {"name": "type",      "type": "string"},
+    {"name": "distance",  "type": ["null", "float"], "default": null}
+  ]
+}
